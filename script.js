@@ -15292,6 +15292,8 @@ const dictionary = [
 ];
 
 WORD_LENGTH = 5;
+const FLIP_ANIMATION_DURATION = 500;
+const keyboard = document.querySelector("[data-keyboard]");
 const alertContainer = document.querySelector("[data-alert-container]");
 const guessGrid = document.querySelector("[data-guess-grid]");
 const offsetFromDate = new Date(2022, 0, 1);
@@ -15380,6 +15382,17 @@ function submitGuess() {
     shakeTiles(activeTiles);
     return;
   }
+
+  stopInteraction();
+  activeTiles.forEach((...params) => flipTile(...params, guess));
+}
+
+function flipTile(tile, index, array, guess) {
+  const letter = tile.dataset.letter;
+  const key = keyboard.querySelector(`[data-key="${letter}"]`);
+  setTimeout(() => {
+    tile.classList.add("flip");
+  }, (index * FLIP_ANIMATION_DURATION) / 2);
 }
 
 function getActiveTiles() {
